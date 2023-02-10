@@ -12,7 +12,7 @@ export default async function handler(
   if (req.method === "POST") {
     const data = JSON.parse(req.body);
 
-    if (data.email !== null) {
+    if (data.email !== "null") {
       const emailHtml = render(Email());
       const options = {
         from: "eedren@gmail.com",
@@ -20,7 +20,6 @@ export default async function handler(
         subject: "Download Your Results Now!",
         html: emailHtml,
       };
-
       sendgrid.send(options);
     }
 
@@ -29,11 +28,3 @@ export default async function handler(
     res.status(500).json({ message: "Method not allowed" });
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "8MB",
-    },
-  },
-};
