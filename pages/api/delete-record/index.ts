@@ -1,12 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { verifySignature } from "@upstash/qstash/nextjs";
+
 const prisma = new PrismaClient();
 
-//upload to prisma
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const submissions = await prisma.submission.findMany();
     const currDate = new Date().getTime();
@@ -20,7 +18,7 @@ export default async function handler(
     });
 
     //delete images from cloudinary
-    const resp = await fetch(
+    await fetch(
       process.env.NODE_ENV === "production"
         ? "https://brighten.ai/api/delete-image"
         : "http://localhost:3000/api/delete-image",
@@ -45,3 +43,11 @@ export default async function handler(
     res.status(500).json({ message: "Method not allowed" });
   }
 }
+
+export default verifySignature(handler);
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

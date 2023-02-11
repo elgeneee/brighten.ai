@@ -282,7 +282,7 @@ export default function Home() {
                     <p className="text-sm font-medium text-slate-600">Email</p>
                     <Input
                       type="email"
-                      placeholder={"Email"}
+                      placeholder={data.email ?? "-"}
                       disabled
                       className="mt-3"
                     />
