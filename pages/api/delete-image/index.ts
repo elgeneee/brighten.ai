@@ -13,7 +13,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const imageID = req.body;
+    const imageID = JSON.parse(eval(req.body));
     imageID.forEach(async (id: string) => {
       try {
         const resp = await cloudinary.uploader.destroy(id);
