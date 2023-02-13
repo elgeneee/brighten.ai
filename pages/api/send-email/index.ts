@@ -21,13 +21,7 @@ export default async function handler(
         subject: "Download Your Results Now!",
         html: emailHtml,
       };
-      console.log(emailHtml, data)
-
-      try {
-        sendgrid.send(options);
-      }catch(err) {
-        console.log(err)
-      }
+      console.log(options)
     }
 
     res.status(200).json({ message: "Success" });
