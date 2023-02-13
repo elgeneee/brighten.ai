@@ -21,7 +21,8 @@ export default async function handler(
         subject: "Download Your Results Now!",
         html: emailHtml,
       };
-      console.log(options)
+      sendgrid.send(options)
+      console.log(process.env.SENDGRID_API_KEY)
     }
 
     res.status(200).json({ message: "Success" });
