@@ -14,17 +14,17 @@ interface EmailProps {
   recipient: string;
   image: string;
 }
-export default function Email() {
+export default function Email(EmailProps: EmailProps) {
   return (
     <Html lang="en">
       <Head />
       <Preview>Download your image result here!</Preview>
       <Section style={main}>
         <Container style={container}>
-          <Section className="mt-32">
+          <Section>
             <Img
-              src="https://miro.medium.com/v2/resize:fit:786/format:webp/1*8T7pwamc162n_dR8caUJwA.jpeg"
-              alt="Cat"
+              src="https://brighten-ai.vercel.app/logo.png"
+              alt="Logo"
               width={40}
               style={logo}
             />
@@ -32,11 +32,13 @@ export default function Email() {
           <Heading style={h1}>
             <strong>Brighten.ai</strong>
           </Heading>
-          <Text style={text}>Hello eedren,</Text>
+          <Text style={text}>Hello {EmailProps.recipient.split("@")[0]},</Text>
           <Text style={text}>
-            Thank you for using <Link href="brighten.ai">Brighten.ai</Link>, you
+            Thank you for using{" "}
+            <Link href="https://brighten-ai.vercel.app">Brighten.ai</Link>, you
             may download your image below:
           </Text>
+          <Img src={EmailProps.image} />
           <Text style={text}>
             Best, <br />
             Brighten.ai team
@@ -63,7 +65,7 @@ const h1 = {
   fontSize: "24px",
   fontWeight: "normal",
   textAlign: "center" as const,
-  margin: "30px 0",
+  margin: "10px 0px 30px 0px",
   padding: "0",
 };
 

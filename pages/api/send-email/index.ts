@@ -11,15 +11,17 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const data = JSON.parse(req.body);
-    console.log(data, data.email)
     if (data.email !== "null") {
-      const emailHtml = render(Email());
+      const emailHtml = render(
+        Email({ recipient: data.email, image: data.img_output }),
+      );
       const options = {
         from: "eedren@gmail.com",
         to: data.email,
         subject: "Download Your Results Now!",
         html: emailHtml,
       };
+      console.log(emailHtml, data)
       sendgrid.send(options);
     }
 
