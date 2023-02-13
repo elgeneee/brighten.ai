@@ -22,7 +22,12 @@ export default async function handler(
         html: emailHtml,
       };
       console.log(emailHtml, data)
-      sendgrid.send(options);
+
+      try {
+        sendgrid.send(options);
+      }catch(err) {
+        console.log(err)
+      }
     }
 
     res.status(200).json({ message: "Success" });
