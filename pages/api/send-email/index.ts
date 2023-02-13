@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const data = JSON.parse(req.body);
-
+    console.log(data, data.email)
     if (data.email !== "null") {
       const emailHtml = render(Email());
       const options = {
