@@ -21,15 +21,17 @@ export default async function handler(
         subject: "Download Your Results Now!",
         html: emailHtml,
       };
+      let result = null;
       sendgrid
         .send(options)
         .then((res) => {
-          console.log(res);
+          result = res
         })
         .catch((err) => {
-          console.log(err);
+          result = err
         });
-    }
+        console.log(result)
+      }
 
     res.status(200).json({ message: "Success" });
   } else {
