@@ -21,8 +21,14 @@ export default async function handler(
         subject: "Download Your Results Now!",
         html: emailHtml,
       };
-      sendgrid.send(options)
-      console.log(process.env.SENDGRID_API_KEY)
+      sendgrid
+        .send(options)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
     res.status(200).json({ message: "Success" });
