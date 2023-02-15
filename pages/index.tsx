@@ -240,10 +240,10 @@ export default function Home() {
             Brighten.ai
           </span>
         </div>
-        <div className="mt-2 text-xl font-semibold text-gray-500">
+        <div className="mt-2 text-center text-sm font-semibold text-gray-500 md:text-xl">
           Transform Dark Moments into Bright Treasures
         </div>
-        <div className="mt-5 text-center text-xl font-normal text-gray-500">
+        <div className="mt-5 text-center text-sm font-normal text-gray-500 md:text-xl">
           Simply turns your low-light photos into bright clear images.
         </div>
         <Dialog>
@@ -252,7 +252,7 @@ export default function Home() {
             Try here!
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader className="px-20">
+            <DialogHeader>
               <DialogTitle>
                 {viewResult ? "Result 🎊" : "Upload Photo"}
               </DialogTitle>
@@ -262,7 +262,7 @@ export default function Home() {
             </DialogHeader>
             {viewResult ? (
               <>
-                <div className="rounded-b-lg border-t bg-slate-100/90 px-20 py-6">
+                <div className="rounded-b-lg border-t bg-slate-100/90 px-2 py-6 md:px-20">
                   <div className="relative aspect-video w-full rounded-lg border border-gray-300 bg-white animate-in fade-in slide-in-from-left-8 duration-700">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -309,7 +309,7 @@ export default function Home() {
             ) : (
               <>
                 <form noValidate onSubmit={handleSubmit(submitRequest)}>
-                  <div className="rounded-b-lg border-t bg-slate-100/90 px-20 py-6 ">
+                  <div className="rounded-b-lg border-t bg-slate-100/90 px-5 py-6 md:px-20 ">
                     <p className="text-sm font-medium text-slate-600 animate-in fade-in slide-in-from-left-8 duration-700">
                       Photo
                     </p>
@@ -326,9 +326,24 @@ export default function Home() {
                           <button
                             type="button"
                             onClick={deleteImage}
-                            className="absolute top-3 right-3 z-50 rounded-md bg-black bg-opacity-60 p-1 transition hover:bg-opacity-70"
+                            disabled={
+                              loading || processingStatus === "succeeded"
+                            }
+                            className={clsx(
+                              loading || processingStatus === "succeeded"
+                                ? "cursor-not-allowed bg-opacity-30"
+                                : "bg-opacity-60 hover:bg-opacity-70",
+                              "absolute top-3 right-3 z-50 rounded-md bg-black p-1 transition",
+                            )}
                           >
-                            <Trash2 color={"#ffffff"} size={18} />
+                            <Trash2
+                              color={
+                                loading || processingStatus === "succeeded"
+                                  ? "#E4E4E4"
+                                  : "#ffffff"
+                              }
+                              size={18}
+                            />
                           </button>
                         )}
                         {fileSizeTooBig && (
@@ -355,7 +370,7 @@ export default function Home() {
                             dragActive ? "text-gray-500/70" : "text-gray-400",
                             (data.file || fileSizeTooBig || fileIsNotImage) &&
                               "hidden",
-                            "flex flex-col items-center justify-center text-xs  transition-all duration-100 group-hover:text-gray-500/70",
+                            "flex flex-col items-center justify-center text-center text-xs transition-all duration-100 group-hover:text-gray-500/70",
                           )}
                         >
                           <UploadCloud className="transition duration-100 group-hover:scale-110" />
@@ -390,6 +405,7 @@ export default function Home() {
                       <Switch
                         checked={sendEmail}
                         onCheckedChange={toggleSendEmail}
+                        disabled={loading || processingStatus === "succeeded"}
                       />
                     </div>
                     {sendEmail && (
@@ -464,7 +480,7 @@ export default function Home() {
             )}
           </DialogContent>
         </Dialog>
-        <div className="mt-10 max-w-lg px-10 md:px-0">
+        <div className="mt-10 max-w-lg px-2 md:px-0">
           <ReactCompareSlider
             /* eslint-disable @next/next/no-img-element */
             itemOne={<img src="/input.png" alt="" className="rounded-xl" />}

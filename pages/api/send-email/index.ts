@@ -22,9 +22,9 @@ export default async function handler(
         html: emailHtml,
       };
 
-      try{
+      try {
         await sendgrid.send(options);
-      }catch(err){
+      } catch (err) {
         return res.status(500).json({ message: err });
       }
       // sendgrid
@@ -35,7 +35,7 @@ export default async function handler(
       //   .catch((err) => {
       //     console.log(err)
       //   });
-      }
+    }
 
     res.status(200).json({ message: "Success" });
   } else {

@@ -1,23 +1,26 @@
 import { ReactNode } from "react";
 import Image from "next/image";
-import { Github, Codesandbox, Code } from "lucide-react";
+import { Github } from "lucide-react";
+import Link from "next/link";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="-z-20 w-full bg-gradient-to-br from-emerald-200/40 via-teal-100/30  to-lime-200/30 ">
+      <div className="-z-20 min-h-screen w-full bg-gradient-to-br from-emerald-200/40 via-teal-100/30  to-lime-200/30 ">
         {/* navbar */}
         <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="logo.png" alt="Logo" width={40} />
+            <Link href="/">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="logo.png" alt="Logo" width={40} />
+            </Link>
           </div>
           <div>
             <Github />
           </div>
         </div>
         {/* body */}
-        <main className="flex min-h-screen w-full flex-col items-center py-32">
+        <main className="flex min-h-screen w-full  flex-col items-center py-32 px-2 md:px-0">
           {children}
         </main>
         {/* footer */}
