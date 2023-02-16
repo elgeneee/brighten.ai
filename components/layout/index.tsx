@@ -16,7 +16,13 @@ export default function Layout({ children }: { children: ReactNode }) {
             </Link>
           </div>
           <div>
-            <Github />
+            <a
+              href="https://github.com/elgeneee/brighten.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github />
+            </a>
           </div>
         </div>
         {/* body */}

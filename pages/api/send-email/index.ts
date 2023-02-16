@@ -18,7 +18,7 @@ export default async function handler(
       const options = {
         from: "eedren@gmail.com",
         to: data.email,
-        subject: "Download Your Results Now!",
+        subject: "Brighten.ai - Your Image Has Been Processed",
         html: emailHtml,
       };
 
