@@ -412,6 +412,7 @@ export default function Home() {
                       <Input
                         type="email"
                         placeholder="Email"
+                        disabled={loading || processingStatus === "succeeded"}
                         className="mt-3 animate-in fade-in slide-in-from-bottom-3 duration-700"
                         {...register("email", {
                           required: {

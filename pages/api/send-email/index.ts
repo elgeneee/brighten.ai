@@ -23,21 +23,12 @@ export default async function handler(
       };
 
       try {
-        await sendgrid.send(options);
+        const sendGridResp = await sendgrid.send(options);
+        return res.status(200).json({ message: sendGridResp });
       } catch (err) {
         return res.status(500).json({ message: err });
       }
-      // sendgrid
-      //   .send(options)
-      //   .then((res) => {
-      //     console.log(res)
-      //   })
-      //   .catch((err) => {
-      //     console.log(err)
-      //   });
     }
-
-    res.status(200).json({ message: "Success" });
   } else {
     res.status(500).json({ message: "Method not allowed" });
   }
