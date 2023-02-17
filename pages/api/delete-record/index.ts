@@ -21,7 +21,7 @@ const getSubmissions = async () => {
 };
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const submissions: any = getSubmissions();
+  const submissions: any = await getSubmissions();
   const currDate = new Date().getTime();
 
   let imageID: string[] = [];
