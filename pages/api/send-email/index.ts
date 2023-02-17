@@ -1,9 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import Email from "../../../emails";
+import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
-import sendgrid from "@sendgrid/mail";
+import Email from "../../../emails";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
+const transporter = nodemailer.createTransport({
+  secure: false,
+  service: "gmail",
+  auth: {
+    user: process.env.NODEMAILER_EMAIL,
+    pass: process.env.NODEMAILER_PASSWORD,
+  },
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,24 +18,23 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const data = JSON.parse(req.body);
-    if (data.email !== "null") {
-      const emailHtml = render(
-        Email({ recipient: data.email, image: data.img_output }),
-      );
-      const options = {
-        from: "eedren@gmail.com",
-        to: data.email,
-        subject: "Brighten.ai - Your Image Has Been Processed",
-        html: emailHtml,
-      };
+    const emailHtml = render(Email({ recipient: data.email, image: data.img_output }));
 
-      try {
-        const sendGridResp = await sendgrid.send(options);
-        return res.status(200).json({ message: sendGridResp });
-      } catch (err) {
-        return res.status(500).json({ message: err });
-      }
-    }
+    const options = {
+      from: process.env.NODEMAILER_EMAIL,
+      to: data.email,
+      subject: "Brighten.ai - Your Image Has Been Processed",
+      html: emailHtml,
+    };
+    
+    transporter
+      .sendMail(options)
+      .then((info) => {
+        res.status(200).json({ message: info });
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err });
+      });
   } else {
     res.status(500).json({ message: "Method not allowed" });
   }
