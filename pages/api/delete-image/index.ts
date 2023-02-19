@@ -16,8 +16,7 @@ export default async function handler(
     const imageID = JSON.parse(eval(req.body));
     imageID.forEach(async (id: string) => {
       try {
-        const resp = await cloudinary.uploader.destroy(id);
-        console.log(resp);
+        await cloudinary.uploader.destroy(id);
       } catch (err) {
         console.log(err);
       }

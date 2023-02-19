@@ -18,7 +18,9 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const data = JSON.parse(req.body);
-    const emailHtml = render(Email({ recipient: data.email, image: data.img_output }));
+    const emailHtml = render(
+      Email({ recipient: data.email, image: data.img_output }),
+    );
 
     const options = {
       from: process.env.NODEMAILER_EMAIL,
@@ -26,7 +28,7 @@ export default async function handler(
       subject: "Brighten.ai - Your Image Has Been Processed",
       html: emailHtml,
     };
-    
+
     transporter
       .sendMail(options)
       .then((info) => {

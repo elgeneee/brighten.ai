@@ -34,33 +34,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   imageID.forEach(async (id: string) => {
     try {
       const resp = await cloudinary.uploader.destroy(id);
-      console.log(resp);
     } catch (err) {
       console.log(err);
     }
   });
 
-  //delete images from cloudinary
-  // await fetch(
-  //   process.env.NODE_ENV === "production"
-  //     ? "https://brighten.ai/api/delete-image"
-  //     : "http://localhost:3000/api/delete-image",
-  //   {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({"imageID": imageID}),
-  //   },
-  // );
-
-  // const updatedSubmissions = await prisma.submission.deleteMany({
-  //   where: {
-  //     id: {
-  //       in: submissionID,
-  //     },
-  //   },
-  // });
   res.status(200).json({ message: "OK" });
 }
 

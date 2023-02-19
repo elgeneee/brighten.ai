@@ -38,7 +38,7 @@ export default function Email(EmailProps: EmailProps) {
             <Link href="https://brighten-ai.vercel.app">Brighten.ai</Link>, you
             may download your image below:
           </Text>
-          <Img src={EmailProps.image} />
+          <Img src={EmailProps.image} style={img} />
           <Text style={text}>
             Best, <br />
             Brighten.ai team
@@ -67,6 +67,12 @@ const h1 = {
   textAlign: "center" as const,
   margin: "10px 0px 30px 0px",
   padding: "0",
+};
+
+const img = {
+  width: "100%",
+  border: "1px solid #eaeaea",
+  borderRadius: "5px",
 };
 
 const container = {

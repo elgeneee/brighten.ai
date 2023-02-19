@@ -54,7 +54,6 @@ export default function Home() {
   const sleep = (ms: any) => new Promise((r) => setTimeout(r, ms));
 
   const submitRequest = async () => {
-    //start prediction
     setLoading(true);
     setProcessingStatus("pending");
     const response = await fetch("/api/prediction", {
@@ -69,8 +68,10 @@ export default function Home() {
     if (response.status !== 201) {
       return;
     }
+
     setPrediction(result);
-    while (result?.status !== "succeeded" && result?.status !== "failed") {
+
+    while (result?.status !== "succeeded") {
       await sleep(1000);
       const res = await fetch("/api/prediction/" + result.id);
       result = await res.json();
@@ -79,8 +80,11 @@ export default function Home() {
       }
       setProcessingStatus(result?.status);
       setPrediction(result);
+      if (result?.status === "failed") {
+        setLoading(false);
+        return;
+      }
     }
-
     uploadToDB(result);
   };
 
@@ -88,7 +92,7 @@ export default function Home() {
     if (replicateData.error !== null || replicateData.status !== "succeeded") {
       return;
     }
-
+    console.log(replicateData);
     //upload to cloudinary
     const formData = new FormData();
     formData.append("file", data.file);
@@ -106,6 +110,7 @@ export default function Home() {
     await fetch("/api/upload", {
       method: "POST",
       headers: {
+        Authorization: replicateData.jwt_token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -116,9 +121,7 @@ export default function Home() {
       }),
     });
     setLoading(false);
-
     setProcessingStatus("succeeded");
-    // const uploadResponse = await upload.json();
   };
 
   const toggleSendEmail = () => {
@@ -209,6 +212,7 @@ export default function Home() {
   const deleteImage = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
+    setPrediction(null);
     setData((prev) => ({ ...prev, file: null }));
     setImageName(null);
   };
@@ -217,6 +221,7 @@ export default function Home() {
     reset();
     setPrediction(null);
     setProcessingStatus("");
+    setLoading(false);
     setViewResult(false);
     setImageName(null);
     setSendEmail(false);
@@ -396,6 +401,11 @@ export default function Home() {
                           onChange={onChangeImage}
                         />
                       </div>
+                      {prediction?.error && (
+                        <p className="h-4 overflow-hidden text-xs font-medium text-red-500 animate-in fade-in duration-700">
+                          {prediction.error}
+                        </p>
+                      )}
                     </div>
 
                     <div className="mt-4 flex items-center justify-between animate-in fade-in slide-in-from-left-8 duration-700">
@@ -456,6 +466,8 @@ export default function Home() {
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Loading
                           </>
+                        ) : processingStatus === "failed" ? (
+                          "Try Again"
                         ) : (
                           "Confirm Upload"
                         )}
